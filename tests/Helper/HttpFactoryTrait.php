@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace zonuexe\PHPerKaigi\Psr15\Helper;
 
+use InvalidArgumentException;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -14,6 +15,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use Psr\Http\Message\UriInterface;
+use RuntimeException;
 
 // Copyright 2022, USAMI Kenta <tadsan@pixiv.com>
 //
@@ -53,8 +55,6 @@ trait HttpFactoryTrait
      * Create a new stream from a string.
      *
      * The stream SHOULD be created with a temporary resource.
-     *
-     * @param string $content String content with which to populate the stream.
      */
     public function createStream(string $contents): StreamInterface
     {
@@ -72,8 +72,8 @@ trait HttpFactoryTrait
      * @param string $filename The filename or stream URI to use as basis of stream.
      * @param string $mode The mode with which to open the underlying filename/stream.
      *
-     * @throws \RuntimeException If the file cannot be opened.
-     * @throws \InvalidArgumentException If the mode is invalid.
+     * @throws RuntimeException If the file cannot be opened.
+     * @throws InvalidArgumentException If the mode is invalid.
      */
     public function createStreamFromFile(string $filename, string $mode = 'r'): StreamInterface
     {
